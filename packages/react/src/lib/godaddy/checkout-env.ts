@@ -572,6 +572,21 @@ const introspection = {
             "isDeprecated": false
           },
           {
+            "name": "references",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "TransactionReference"
+                }
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
             "name": "status",
             "type": {
               "kind": "SCALAR",
@@ -2015,6 +2030,15 @@ const introspection = {
             "isDeprecated": false
           },
           {
+            "name": "paymentProviderConfiguration",
+            "type": {
+              "kind": "OBJECT",
+              "name": "CheckoutSessionPaymentProviderConfiguration"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
             "name": "returnUrl",
             "type": {
               "kind": "NON_NULL",
@@ -2135,6 +2159,15 @@ const introspection = {
             "type": {
               "kind": "OBJECT",
               "name": "CheckoutSessionTaxesOptions"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "tips",
+            "type": {
+              "kind": "OBJECT",
+              "name": "CheckoutSessionTips"
             },
             "args": [],
             "isDeprecated": false
@@ -2972,6 +3005,101 @@ const introspection = {
       },
       {
         "kind": "OBJECT",
+        "name": "CheckoutSessionFee",
+        "fields": [
+          {
+            "name": "amount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "feeProgramId",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "feeProgramType",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "FeeProgramType"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "feeType",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "FeeType"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "signature",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String"
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CheckoutSessionFeesResult",
+        "fields": [
+          {
+            "name": "feeTotal",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "fees",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "CheckoutSessionFee"
+                }
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
         "name": "CheckoutSessionFreeShippingRule",
         "fields": [
           {
@@ -3421,6 +3549,61 @@ const introspection = {
       },
       {
         "kind": "OBJECT",
+        "name": "CheckoutSessionPayPalProviderConfiguration",
+        "fields": [
+          {
+            "name": "clientId",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "disableFunding",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String"
+                }
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "merchantId",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "partnerAttributionId",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String"
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
         "name": "CheckoutSessionPaymentMethodConfig",
         "fields": [
           {
@@ -3598,6 +3781,15 @@ const introspection = {
             },
             "args": [],
             "isDeprecated": false
+          },
+          {
+            "name": "razorpay",
+            "type": {
+              "kind": "OBJECT",
+              "name": "CheckoutSessionPaymentMethodConfig"
+            },
+            "args": [],
+            "isDeprecated": false
           }
         ],
         "interfaces": []
@@ -3675,9 +3867,60 @@ const introspection = {
               "kind": "INPUT_OBJECT",
               "name": "CheckoutSessionPaymentMethodConfigInput"
             }
+          },
+          {
+            "name": "razorpay",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "CheckoutSessionPaymentMethodConfigInput"
+            }
           }
         ],
         "isOneOf": false
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CheckoutSessionPaymentProviderConfiguration",
+        "fields": [
+          {
+            "name": "paypal",
+            "type": {
+              "kind": "OBJECT",
+              "name": "CheckoutSessionPayPalProviderConfiguration"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "razorpay",
+            "type": {
+              "kind": "OBJECT",
+              "name": "CheckoutSessionRazorpayProviderConfiguration"
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CheckoutSessionRazorpayProviderConfiguration",
+        "fields": [
+          {
+            "name": "configured",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
       },
       {
         "kind": "OBJECT",
@@ -3994,6 +4237,242 @@ const introspection = {
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "CheckoutSessionAddressInput"
+            }
+          }
+        ],
+        "isOneOf": false
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CheckoutSessionTips",
+        "fields": [
+          {
+            "name": "default",
+            "type": {
+              "kind": "OBJECT",
+              "name": "CheckoutSessionTipsDefault"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "thresholds",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "CheckoutSessionTipsThreshold"
+                }
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CheckoutSessionTipsDefault",
+        "fields": [
+          {
+            "name": "amounts",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int"
+                }
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "percentages",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int"
+                }
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "CheckoutSessionTipsDefaultInput",
+        "inputFields": [
+          {
+            "name": "amounts",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int"
+                }
+              }
+            }
+          },
+          {
+            "name": "percentages",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int"
+                }
+              }
+            }
+          }
+        ],
+        "isOneOf": false
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "CheckoutSessionTipsInput",
+        "inputFields": [
+          {
+            "name": "default",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "CheckoutSessionTipsDefaultInput"
+            }
+          },
+          {
+            "name": "thresholds",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "CheckoutSessionTipsThresholdInput"
+                }
+              }
+            }
+          }
+        ],
+        "isOneOf": false
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CheckoutSessionTipsThreshold",
+        "fields": [
+          {
+            "name": "amounts",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int"
+                }
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "maxSubtotal",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "minSubtotal",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "percentages",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int"
+                }
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "CheckoutSessionTipsThresholdInput",
+        "inputFields": [
+          {
+            "name": "amounts",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int"
+                }
+              }
+            }
+          },
+          {
+            "name": "maxSubtotal",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int"
+              }
+            }
+          },
+          {
+            "name": "minSubtotal",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int"
+              }
+            }
+          },
+          {
+            "name": "percentages",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int"
+                }
+              }
             }
           }
         ],
@@ -6335,6 +6814,42 @@ const introspection = {
         "isOneOf": false
       },
       {
+        "kind": "ENUM",
+        "name": "FeeProgramType",
+        "enumValues": [
+          {
+            "name": "CONVENIENCE_FEE",
+            "isDeprecated": false
+          },
+          {
+            "name": "SERVICE_FEE",
+            "isDeprecated": false
+          },
+          {
+            "name": "SURCHARGE",
+            "isDeprecated": false
+          }
+        ]
+      },
+      {
+        "kind": "ENUM",
+        "name": "FeeType",
+        "enumValues": [
+          {
+            "name": "FIXED",
+            "isDeprecated": false
+          },
+          {
+            "name": "HYBRID",
+            "isDeprecated": false
+          },
+          {
+            "name": "PERCENTAGE",
+            "isDeprecated": false
+          }
+        ]
+      },
+      {
         "kind": "SCALAR",
         "name": "Float"
       },
@@ -6404,6 +6919,24 @@ const introspection = {
           },
           {
             "name": "TO_GO",
+            "isDeprecated": false
+          }
+        ]
+      },
+      {
+        "kind": "ENUM",
+        "name": "FundingSourceType",
+        "enumValues": [
+          {
+            "name": "CREDIT",
+            "isDeprecated": false
+          },
+          {
+            "name": "DEBIT",
+            "isDeprecated": false
+          },
+          {
+            "name": "PREPAID",
             "isDeprecated": false
           }
         ]
@@ -7398,6 +7931,54 @@ const introspection = {
             "isDeprecated": false
           },
           {
+            "name": "calculateCheckoutSessionFees",
+            "type": {
+              "kind": "OBJECT",
+              "name": "CheckoutSessionFeesResult"
+            },
+            "args": [
+              {
+                "name": "fundingSourceType",
+                "type": {
+                  "kind": "ENUM",
+                  "name": "FundingSourceType"
+                }
+              },
+              {
+                "name": "paymentProvider",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String"
+                }
+              },
+              {
+                "name": "paymentToken",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String"
+                }
+              },
+              {
+                "name": "paymentType",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String"
+                  }
+                }
+              },
+              {
+                "name": "tipAmount",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int"
+                }
+              }
+            ],
+            "isDeprecated": false
+          },
+          {
             "name": "calculateCheckoutSessionTaxes",
             "type": {
               "kind": "OBJECT",
@@ -7681,6 +8262,20 @@ const introspection = {
         "name": "MutationAuthorizeCheckoutSessionInput",
         "inputFields": [
           {
+            "name": "expectedFeeTotal",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int"
+            }
+          },
+          {
+            "name": "fundingSourceType",
+            "type": {
+              "kind": "ENUM",
+              "name": "FundingSourceType"
+            }
+          },
+          {
             "name": "paymentProvider",
             "type": {
               "kind": "NON_NULL",
@@ -7705,6 +8300,13 @@ const introspection = {
                 "kind": "SCALAR",
                 "name": "String"
               }
+            }
+          },
+          {
+            "name": "tipAmount",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int"
             }
           }
         ],
@@ -7736,6 +8338,13 @@ const introspection = {
             }
           },
           {
+            "name": "expectedFeeTotal",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int"
+            }
+          },
+          {
             "name": "fulfillmentEndAt",
             "type": {
               "kind": "SCALAR",
@@ -7754,6 +8363,13 @@ const introspection = {
             "type": {
               "kind": "SCALAR",
               "name": "DateTime"
+            }
+          },
+          {
+            "name": "fundingSourceType",
+            "type": {
+              "kind": "ENUM",
+              "name": "FundingSourceType"
             }
           },
           {
@@ -7818,6 +8434,13 @@ const introspection = {
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "MoneyInput"
+            }
+          },
+          {
+            "name": "tipAmount",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int"
             }
           }
         ],
@@ -8027,6 +8650,13 @@ const introspection = {
             }
           },
           {
+            "name": "owner",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String"
+            }
+          },
+          {
             "name": "paymentMethods",
             "type": {
               "kind": "INPUT_OBJECT",
@@ -8089,6 +8719,13 @@ const introspection = {
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "CheckoutSessionTaxesOptionsInput"
+            }
+          },
+          {
+            "name": "tips",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "CheckoutSessionTipsInput"
             }
           },
           {
@@ -8521,6 +9158,13 @@ const introspection = {
             "type": {
               "kind": "SCALAR",
               "name": "String"
+            }
+          },
+          {
+            "name": "tips",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "CheckoutSessionTipsInput"
             }
           },
           {
@@ -9823,6 +10467,21 @@ const introspection = {
             "isDeprecated": false
           },
           {
+            "name": "references",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "TransactionReference"
+                }
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
             "name": "status",
             "type": {
               "kind": "SCALAR",
@@ -10858,6 +11517,15 @@ const introspection = {
             "isDeprecated": false
           },
           {
+            "name": "paymentReference",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
             "name": "provider",
             "type": {
               "kind": "SCALAR",
@@ -10868,6 +11536,40 @@ const introspection = {
           },
           {
             "name": "sourceType",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String"
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "TransactionReference",
+        "fields": [
+          {
+            "name": "additionalLabel",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "type",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "value",
             "type": {
               "kind": "SCALAR",
               "name": "String"
