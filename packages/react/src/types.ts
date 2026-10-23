@@ -45,6 +45,7 @@ export const PaymentProvider = {
   OFFLINE: 'offline',
   MERCADOPAGO: 'mercadopago',
   CCAVENUE: 'ccavenue',
+  RAZORPAY: 'razorpay',
 } as const;
 
 export const CheckoutType = {
@@ -67,6 +68,7 @@ export const PaymentMethodType = {
   PAZE: 'paze',
   MERCADOPAGO: 'mercadopago',
   CCAVENUE: 'ccavenue',
+  RAZORPAY: 'razorpay',
 } as const;
 
 // Union of all payment method keys
@@ -87,11 +89,20 @@ export type PaymentMethods = {
   [K in PaymentMethodKey]: PaymentMethodConfig | null;
 };
 
+export type CheckoutSessionAuth =
+  | {
+      personalAccessToken: string;
+      clientId?: never;
+      clientSecret?: never;
+    }
+  | {
+      clientId: string;
+      clientSecret: string;
+      personalAccessToken?: never;
+    };
+
 export interface CheckoutSessionOptions {
-  auth?: {
-    clientId: string;
-    clientSecret: string;
-  };
+  auth?: CheckoutSessionAuth;
 }
 
 export type $Values<T> = T[keyof T];

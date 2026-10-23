@@ -113,6 +113,7 @@ export const trTr = {
       ach: 'Banka Hesabı',
       mercadopago: 'Mercado Pago',
       ccavenue: 'CCAvenue ile öde',
+      razorpay: 'Razorpay',
     },
     descriptions: {
       creditCard: '',
@@ -125,6 +126,7 @@ export const trTr = {
       mercadopago:
         'Satın alımınızı güvenle tamamlamak için aşağıdaki MercadoPago formunu kullanın.',
       ccavenue: '',
+      razorpay: '',
     },
     noMethodsAvailable: 'Kullanılabilir ödeme yöntemi yok',
     cardNumber: 'Kart numarası',
@@ -168,6 +170,7 @@ export const trTr = {
     shipping: 'Kargo',
     tip: 'Bahşiş',
     estimatedTaxes: 'Tahmini vergiler',
+    vatIncluded: 'KDV dahil',
     fees: 'Ücretler',
     totalDue: 'Ödenecek Toplam',
     orderSummary: 'Sipariş Özeti',
@@ -345,6 +348,12 @@ export const trTr = {
     DEPENDENCY_ERROR:
       'Şu anda siparişinizi işleme alamıyoruz. Lütfen bir dakika bekleyin ve tekrar deneyin',
     AUTHORIZATION_FAILED: 'Ödeme yetkilendirmesi başarısız',
+    TIP_EXCEEDS_LIMIT: 'Bahşiş bu sipariş için çok yüksek',
+    INVALID_TIP_AMOUNT: 'Geçerli bir bahşiş tutarı girin',
+    TIPS_NOT_ENABLED: 'Bu sipariş için bahşiş kabul edilmiyor',
+    TIP_CHARGE_FAILED: 'Farklı bir bahşiş tutarı deneyin veya Bahşiş Yok seçin',
+    TIP_NOT_SUPPORTED_FOR_OFFLINE_PAYMENT:
+      'Çevrimdışı ödemelerde bahşiş desteklenmiyor',
   },
   storefront: {
     product: 'Ürün',

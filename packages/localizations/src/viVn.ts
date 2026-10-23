@@ -113,6 +113,7 @@ export const viVn = {
       ach: 'Tài khoản ngân hàng',
       mercadopago: 'Mercado Pago',
       ccavenue: 'Thanh toán bằng CCAvenue',
+      razorpay: 'Razorpay',
     },
     descriptions: {
       creditCard: '',
@@ -125,6 +126,7 @@ export const viVn = {
       mercadopago:
         'Hãy sử dụng biểu mẫu MercadoPago bên dưới để hoàn tất mua hàng một cách an toàn.',
       ccavenue: '',
+      razorpay: '',
     },
     noMethodsAvailable: 'Không có phương thức thanh toán nào',
     cardNumber: 'Số thẻ',
@@ -168,6 +170,7 @@ export const viVn = {
     shipping: 'Vận chuyển',
     tip: 'Tip',
     estimatedTaxes: 'Thuế ước tính',
+    vatIncluded: 'Đã bao gồm VAT',
     fees: 'Phí',
     totalDue: 'Tổng cộng',
     orderSummary: 'Tóm tắt đơn hàng',
@@ -345,6 +348,12 @@ export const viVn = {
     DEPENDENCY_ERROR:
       'Chúng tôi không thể xử lý đơn hàng của bạn ngay bây giờ. Vui lòng đợi một chút và thử lại',
     AUTHORIZATION_FAILED: 'Không thể ủy quyền thanh toán',
+    TIP_EXCEEDS_LIMIT: 'Tiền tip quá lớn cho đơn hàng này',
+    INVALID_TIP_AMOUNT: 'Nhập số tiền tip hợp lệ',
+    TIPS_NOT_ENABLED: 'Đơn hàng này không nhận tiền tip',
+    TIP_CHARGE_FAILED: 'Hãy thử số tiền tip khác hoặc chọn Không tip',
+    TIP_NOT_SUPPORTED_FOR_OFFLINE_PAYMENT:
+      'Không hỗ trợ tiền tip cho thanh toán ngoại tuyến',
   },
   storefront: {
     product: 'Sản phẩm',

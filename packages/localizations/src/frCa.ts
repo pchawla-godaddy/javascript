@@ -114,6 +114,7 @@ export const frCa = {
       ach: 'Compte bancaire',
       mercadopago: 'Mercado Pago',
       ccavenue: 'Payer avec CCAvenue',
+      razorpay: 'Razorpay',
     },
     descriptions: {
       creditCard: '',
@@ -126,6 +127,7 @@ export const frCa = {
       mercadopago:
         'Utilisez le formulaire MercadoPago ci-dessous pour finaliser votre achat en toute sécurité.',
       ccavenue: '',
+      razorpay: '',
     },
     noMethodsAvailable: 'Aucune méthode de paiement disponible',
     cardNumber: 'Numéro de carte',
@@ -169,6 +171,7 @@ export const frCa = {
     shipping: 'Expédition',
     tip: 'Pourboire',
     estimatedTaxes: 'Taxes estimées',
+    vatIncluded: 'TVA incluse',
     fees: 'Frais',
     totalDue: 'Total à payer',
     orderSummary: 'Résumé de la commande',
@@ -369,6 +372,13 @@ export const frCa = {
     DEPENDENCY_ERROR:
       'Nous ne pouvons pas traiter votre commande actuellement. Veuillez patienter un moment et réessayer',
     AUTHORIZATION_FAILED: "Échec de l'autorisation du paiement",
+    TIP_EXCEEDS_LIMIT: 'Le pourboire est trop élevé pour cette commande',
+    INVALID_TIP_AMOUNT: 'Entrez un montant de pourboire valide',
+    TIPS_NOT_ENABLED: 'Les pourboires ne sont pas acceptés pour cette commande',
+    TIP_CHARGE_FAILED:
+      'Essayez un autre montant de pourboire ou choisissez Aucun pourboire',
+    TIP_NOT_SUPPORTED_FOR_OFFLINE_PAYMENT:
+      'Les pourboires ne sont pas acceptés pour les paiements hors ligne',
   },
   storefront: {
     product: 'Produit',

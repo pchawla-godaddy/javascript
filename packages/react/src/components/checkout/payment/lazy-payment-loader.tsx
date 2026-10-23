@@ -2,7 +2,6 @@
 
 import { type ComponentType, lazy, Suspense } from 'react';
 import { useCheckoutContext } from '@/components/checkout/checkout';
-import { getApplicationId } from '@/components/checkout/payment/utils/get-application-id';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   type AvailablePaymentProviders,
@@ -152,6 +151,11 @@ const LazyComponents = {
       '@/components/checkout/payment/checkout-buttons/ccavenue/ccavenue'
     ).then(module => ({ default: module.CCAvenueCheckoutButton }))
   ),
+  RazorpayCheckoutButton: lazy(() =>
+    import(
+      '@/components/checkout/payment/checkout-buttons/razorpay/razorpay'
+    ).then(module => ({ default: module.RazorpayCheckoutButton }))
+  ),
 
   // Container Components
   CreditCardContainer: lazy(() =>
@@ -238,6 +242,11 @@ type PaymentComponentRegistry = {
       button: PaymentComponentKey;
     };
   };
+  [PaymentMethodType.RAZORPAY]?: {
+    [PaymentProvider.RAZORPAY]: {
+      button: PaymentComponentKey;
+    };
+  };
 };
 
 export const lazyPaymentComponentRegistry: PaymentComponentRegistry = {
@@ -308,6 +317,11 @@ export const lazyPaymentComponentRegistry: PaymentComponentRegistry = {
       button: 'CCAvenueCheckoutButton',
     },
   },
+  [PaymentMethodType.RAZORPAY]: {
+    [PaymentProvider.RAZORPAY]: {
+      button: 'RazorpayCheckoutButton',
+    },
+  },
 };
 
 // Payment loading skeleton component
@@ -344,18 +358,17 @@ export function LazyPaymentMethodRenderer({
   const { godaddyPaymentsConfig, session } = useCheckoutContext();
 
   if (provider === PaymentProvider.GODADDY) {
-    const hasGoDaddyAppId = !!getApplicationId(
-      session,
-      godaddyPaymentsConfig?.appId
-    )?.trim();
+    const hasGoDaddyBusinessId = !!(
+      godaddyPaymentsConfig?.businessId || session?.businessId
+    );
 
-    if (method === PaymentMethodType.CREDIT_CARD && !hasGoDaddyAppId) {
+    if (method === PaymentMethodType.CREDIT_CARD && !hasGoDaddyBusinessId) {
       return null;
     }
 
     if (
       method === PaymentMethodType.ACH &&
-      (!hasGoDaddyAppId ||
+      (!hasGoDaddyBusinessId ||
         session?.paymentMethods?.ach?.processor !== PaymentProvider.GODADDY)
     ) {
       return null;

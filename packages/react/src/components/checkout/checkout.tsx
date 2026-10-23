@@ -82,7 +82,12 @@ export type SquareConfig = {
 export type PayPalConfig = {
   clientId: string;
   merchantId?: string;
+  partnerAttributionId?: string;
   disableFunding?: Array<'credit' | 'card' | 'paylater' | 'venmo'>;
+};
+
+export type RazorpayConfig = {
+  configured: boolean;
 };
 
 export type MercadoPagoConfig = {
@@ -106,6 +111,7 @@ interface CheckoutContextValue {
   godaddyPaymentsConfig?: GodaddyPaymentsConfig;
   squareConfig?: SquareConfig;
   paypalConfig?: PayPalConfig;
+  razorpayConfig?: RazorpayConfig;
   mercadoPagoConfig?: MercadoPagoConfig;
   ccavenueConfig?: CCAvenueConfig;
   isConfirmingCheckout: boolean;
@@ -191,7 +197,7 @@ export const baseCheckoutSchema = z.object({
   pickupLeadTime: z.number().nullish(),
   pickupTimezone: z.string().nullish(),
   tipAmount: z.number().optional(),
-  tipPercentage: z.number().optional(),
+  tipPercentage: z.number().nullish(),
   paymentMethod: z.string().min(1, 'Select a payment method'),
   stripePaymentIntent: z.string().optional(),
   stripePaymentIntentId: z.string().optional(),
@@ -254,6 +260,36 @@ export function Checkout(props: CheckoutProps) {
   const { session, jwt, isLoading: isLoadingJWT } = useCheckoutSession(props);
   useTheme(session?.appearance?.theme);
   useVariables(session?.appearance?.variables || props?.appearance?.variables);
+
+  // Prefer an explicitly-supplied paypalConfig prop (existing embedded
+  // checkout integrations); fall back to the session's dynamically-resolved
+  // public configuration otherwise (hosted checkout, where no prop is ever
+  // supplied). See checkout-api PR #183's "Hosted Checkout Consumption".
+  // The GraphQL-sourced value uses `null` for absent optional fields; convert
+  // those to `undefined` so the result matches PayPalConfig exactly.
+  const sessionPayPalConfig = session?.paymentProviderConfiguration?.paypal;
+  const effectivePayPalConfig: PayPalConfig | undefined =
+    paypalConfig ??
+    (sessionPayPalConfig
+      ? {
+          clientId: sessionPayPalConfig.clientId,
+          merchantId: sessionPayPalConfig.merchantId,
+          partnerAttributionId:
+            sessionPayPalConfig.partnerAttributionId ?? undefined,
+          // GraphQL exposes this as a plain string list; checkout-api
+          // validates the values against PayPalDisableFundingSchema before
+          // ever persisting them, so this narrowing is safe.
+          disableFunding: (sessionPayPalConfig.disableFunding ?? undefined) as
+            | PayPalConfig['disableFunding']
+            | undefined,
+        }
+      : undefined);
+
+  const sessionRazorpayConfig = session?.paymentProviderConfiguration?.razorpay;
+  const effectiveRazorpayConfig: RazorpayConfig | undefined =
+    sessionRazorpayConfig
+      ? { configured: sessionRazorpayConfig.configured }
+      : undefined;
 
   const validationMessages = React.useMemo<CheckoutValidationMessages>(
     () => ({
@@ -331,7 +367,8 @@ export function Checkout(props: CheckoutProps) {
           godaddyPaymentsConfig,
           squareConfig,
           mercadoPagoConfig,
-          paypalConfig,
+          paypalConfig: effectivePayPalConfig,
+          razorpayConfig: effectiveRazorpayConfig,
           ccavenueConfig,
           requiredFields,
           isConfirmingCheckout,

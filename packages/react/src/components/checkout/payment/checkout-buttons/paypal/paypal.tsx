@@ -3,7 +3,7 @@ import {
   PayPalButtons,
   usePayPalScriptReducer,
 } from '@paypal/react-paypal-js';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useCheckoutContext } from '@/components/checkout/checkout';
 import { DeliveryMethods } from '@/components/checkout/delivery/delivery-methods';
@@ -14,22 +14,25 @@ import {
 } from '@/components/checkout/payment/utils/use-confirm-checkout';
 import { useFlushCheckoutSync } from '@/components/checkout/payment/utils/use-flush-checkout-sync';
 import { useIsPaymentDisabled } from '@/components/checkout/payment/utils/use-is-payment-disabled';
+import { isDigitalOnlyOrder } from '@/components/checkout/utils/fulfillment';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGoDaddyContext } from '@/godaddy-provider';
 import { GraphQLErrorWithCodes } from '@/lib/graphql-with-errors';
 
 function PayPalButtonsWrapper() {
-  const { setCheckoutErrors } = useCheckoutContext();
+  const { session, setCheckoutErrors } = useCheckoutContext();
   const isPaymentDisabled = useIsPaymentDisabled();
   const form = useFormContext();
-  const { payPalRequest, buildPaymentRequestsFromOrder } =
-    useBuildPaymentRequest();
+  const { buildPaymentRequestsFromOrder } = useBuildPaymentRequest();
   const confirmCheckout = useConfirmCheckout();
   const flushCheckoutSync = useFlushCheckoutSync();
   const [isPaypalDisabled, setIsPaypalDisabled] = useState<boolean>(false);
   const deliveryMethod = form.watch('deliveryMethod');
   const isPickup = deliveryMethod === DeliveryMethods.PICKUP;
   const [{ isResolved, isPending }] = usePayPalScriptReducer();
+  // PayPal's popup can stay open while the tip changes underneath, so confirm
+  // sends the tip `createOrder` submitted rather than the current form value.
+  const authorizedTipAmount = useRef<number | null>(null);
 
   // PayPal onClick handler that returns Promise<boolean>
   const handleClick = async (_data, actions) => {
@@ -56,21 +59,38 @@ function PayPalButtonsWrapper() {
     const { latestOrder } = await flushCheckoutSync({
       includeCurrentFormDiff: true,
     });
-    const request = latestOrder
-      ? buildPaymentRequestsFromOrder(latestOrder).payPalRequest
-      : payPalRequest;
+
+    // Below the flush, and rebuilt rather than falling back to the memoized
+    // `payPalRequest`: the tip can move while the flush settles, and these two
+    // reads share it only because no `await` separates them.
+    authorizedTipAmount.current = session?.enableTips
+      ? (form.getValues('tipAmount') ?? 0)
+      : null;
+    const request = buildPaymentRequestsFromOrder(
+      latestOrder ?? undefined
+    ).payPalRequest;
+    // PayPal validates whatever `shipping.address` we send, even a mostly-empty
+    // one — the country-code-only stub use-build-payment-request.ts always
+    // builds (there's no real address to collect) fails with
+    // POSTAL_CODE_REQUIRED unless we omit `shipping` and ask for NO_SHIPPING.
+    // Pickup already did this; digital-only orders need the same treatment,
+    // since they never collect a shipping address either.
+    const suppressShipping =
+      isPickup || isDigitalOnlyOrder(latestOrder?.lineItems);
     const order = {
       ...request,
       purchase_units: request.purchase_units
         ? [
             {
               ...request.purchase_units[0],
-              ...(isPickup ? { shipping: undefined } : {}), // Remove shipping if pickup
+              ...(suppressShipping ? { shipping: undefined } : {}),
             },
           ]
         : undefined,
       application_context: {
-        shipping_preference: isPickup ? 'NO_SHIPPING' : 'SET_PROVIDED_ADDRESS',
+        shipping_preference: suppressShipping
+          ? 'NO_SHIPPING'
+          : 'SET_PROVIDED_ADDRESS',
       },
     };
     return await actions.order.create(order);
@@ -85,6 +105,9 @@ function PayPalButtonsWrapper() {
         paymentToken: `${details.id}:${details.payer.payer_id}`,
         paymentType: 'paypal',
         paymentProvider: PaymentProvider.PAYPAL,
+        ...(authorizedTipAmount.current === null
+          ? {}
+          : { tipAmount: authorizedTipAmount.current }),
       });
     } catch (err: unknown) {
       if (err instanceof GraphQLErrorWithCodes) {

@@ -114,6 +114,7 @@ export const esUs = {
       ach: 'Cuenta Bancaria',
       mercadopago: 'Mercado Pago',
       ccavenue: 'Pagar con CCAvenue',
+      razorpay: 'Razorpay',
     },
     descriptions: {
       creditCard: '',
@@ -126,6 +127,7 @@ export const esUs = {
       mercadopago:
         'Usa el formulario de MercadoPago a continuación para completar tu compra de forma segura.',
       ccavenue: '',
+      razorpay: '',
     },
     noMethodsAvailable: 'No hay métodos de pago disponibles',
     cardNumber: 'Número de tarjeta',
@@ -169,6 +171,7 @@ export const esUs = {
     shipping: 'Envío',
     tip: 'Propina',
     estimatedTaxes: 'Impuestos estimados',
+    vatIncluded: 'IVA incluido',
     fees: 'Cargos',
     totalDue: 'Total a Pagar',
     orderSummary: 'Resumen del Pedido',
@@ -352,6 +355,12 @@ export const esUs = {
     DEPENDENCY_ERROR:
       'No podemos procesar su pedido en este momento. Espere un momento e inténtelo de nuevo',
     AUTHORIZATION_FAILED: 'Error al autorizar el pago',
+    TIP_EXCEEDS_LIMIT: 'La propina es demasiado alta para este pedido',
+    INVALID_TIP_AMOUNT: 'Ingrese una cantidad de propina válida',
+    TIPS_NOT_ENABLED: 'No se aceptan propinas para este pedido',
+    TIP_CHARGE_FAILED: 'Pruebe otra cantidad de propina o elija Sin Propina',
+    TIP_NOT_SUPPORTED_FOR_OFFLINE_PAYMENT:
+      'No se aceptan propinas en los pagos offline',
   },
   storefront: {
     product: 'Producto',

@@ -114,6 +114,7 @@ export const itIt = {
       ach: 'Conto Bancario',
       mercadopago: 'Mercado Pago',
       ccavenue: 'Paga con CCAvenue',
+      razorpay: 'Razorpay',
     },
     descriptions: {
       creditCard: '',
@@ -126,6 +127,7 @@ export const itIt = {
       mercadopago:
         'Usa il modulo MercadoPago qui sotto per completare l’acquisto in modo sicuro.',
       ccavenue: '',
+      razorpay: '',
     },
     noMethodsAvailable: 'Nessun metodo di pagamento disponibile',
     cardNumber: 'Numero della carta',
@@ -169,6 +171,7 @@ export const itIt = {
     shipping: 'Spedizione',
     tip: 'Mancia',
     estimatedTaxes: 'Tasse stimate',
+    vatIncluded: 'IVA inclusa',
     fees: 'Commissioni',
     totalDue: 'Totale Dovuto',
     orderSummary: 'Riepilogo Ordine',
@@ -368,6 +371,13 @@ export const itIt = {
     DEPENDENCY_ERROR:
       'Non riusciamo a elaborare il tuo ordine in questo momento. Aspetta un momento e riprova',
     AUTHORIZATION_FAILED: "Errore nell'autorizzazione del pagamento",
+    TIP_EXCEEDS_LIMIT: 'La mancia è troppo alta per questo ordine',
+    INVALID_TIP_AMOUNT: 'Inserisci un importo della mancia valido',
+    TIPS_NOT_ENABLED: 'Le mance non sono accettate per questo ordine',
+    TIP_CHARGE_FAILED:
+      'Prova un altro importo della mancia o scegli Nessuna Mancia',
+    TIP_NOT_SUPPORTED_FOR_OFFLINE_PAYMENT:
+      'Le mance non sono supportate per i pagamenti offline',
   },
   storefront: {
     product: 'Prodotto',

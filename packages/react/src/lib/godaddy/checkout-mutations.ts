@@ -16,6 +16,18 @@ export const CreateCheckoutSessionMutation = graphql(`
       storeName
       environment
       enableTips
+      tips {
+        default {
+          amounts
+          percentages
+        }
+        thresholds {
+          minSubtotal
+          maxSubtotal
+          amounts
+          percentages
+        }
+      }
       enabledLocales
       enableSurcharge
       enableLocalPickup
@@ -120,6 +132,21 @@ export const CreateCheckoutSessionMutation = graphql(`
         ach {
           processor
           checkoutTypes
+        }
+        razorpay {
+          processor
+          checkoutTypes
+        }
+      }
+      paymentProviderConfiguration {
+        paypal {
+          clientId
+          merchantId
+          partnerAttributionId
+          disableFunding
+        }
+        razorpay {
+          configured
         }
       }
       draftOrder {
@@ -394,10 +421,10 @@ export const ApplyCheckoutSessionDiscountMutation = graphql(`
 
 export const ConfirmCheckoutSessionMutation = graphql(`
   mutation ConfirmCheckoutSession($input: MutationConfirmCheckoutSessionInput!, $sessionId: String!)  {
-        confirmCheckoutSession(input: $input, sessionId: $sessionId) {
-          status
-        }
+    confirmCheckoutSession(input: $input, sessionId: $sessionId) {
+      status
     }
+  }
 `);
 
 export const ApplyCheckoutSessionShippingMethodMutation = graphql(`
@@ -473,9 +500,25 @@ export const AuthorizeCheckoutSessionMutation = graphql(`
         authorizeCheckoutSession(input: $input) {
           ... on SaleTransaction {
             transactionRefNum
+            fundingSource {
+              paymentReference
+            }
+            references {
+              type
+              value
+              additionalLabel
+            }
           }
           ... on AuthorizeTransaction {
             transactionRefNum
+            fundingSource {
+              paymentReference
+            }
+            references {
+              type
+              value
+              additionalLabel
+            }
           }
         }
     }
